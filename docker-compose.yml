@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  bot:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./bot/:/usr/bot
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    networks:
+      - mongo
+      - forward
+  mongo:
+    image: mongo:4.2
+    ports:
+      - "27017:27017"
+    expose:
+      - "27017-27019"
+    volumes:
+      - ./mongo/:/usr/mongo
+    networks:
+      - mongo
+
+networks:
+    mongo:
+      internal: true
+    forward:
+      internal: false
