@@ -1,8 +1,8 @@
 # Discord.js 13 requires node.js v.16.
 FROM node:16
 
-# Set port 8080 as env constant (not required, though may be useful.)
-ENV PORT 8080
+# Set port 8085 as env constant (not required, though may be useful.)
+ENV PORT 8085
 
 # Set working directory inside the container.
 WORKDIR /usr/bot
