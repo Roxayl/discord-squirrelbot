@@ -4,12 +4,29 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { clientId, guildId, token } = require('./config.json');
+const dbConfig = require('./config/database.js');
+const Sequelize = require('sequelize');
+require("dotenv").config();
+
+// DB configuration.
+const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
+    host: dbConfig.HOST,
+    dialect: dbConfig.dialect,
+    port: dbConfig.port,
+    operatorsAliases: false,
+
+    pool: {
+        max: dbConfig.pool.max,
+        min: dbConfig.pool.min,
+        acquire: dbConfig.pool.acquire,
+        idle: dbConfig.pool.idle
+    }
+});
 
 
 // Instantiate client and rest objects.
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 const rest = new REST({ version: '9' }).setToken(token);
-
 
 // Fetch all commands in the /commands directory.
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
