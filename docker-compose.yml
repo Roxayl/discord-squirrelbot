@@ -8,15 +8,12 @@ services:
     ports:
       - "8085:8085"
     volumes:
-      - ./bot/:/usr/bot
+      - .:/app
     links:
-      - mysql
+      - mysql:mysql
     depends_on:
       - mysql
     restart: unless-stopped
-    networks:
-      - mysql
-      - forward
 
   mysql:
     image: mysql:8.0
@@ -32,9 +29,3 @@ services:
         --collation-server=utf8mb4_unicode_ci]
     environment:
       MYSQL_ROOT_PASSWORD: root
-
-networks:
-    mysql:
-      internal: true
-    forward:
-      internal: false

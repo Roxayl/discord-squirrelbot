@@ -5,12 +5,20 @@ FROM node:16
 ENV PORT 8085
 
 # Set working directory inside the container.
-WORKDIR /usr/bot
+WORKDIR /app
+# Copy sources and run starting from application main file.
+COPY . ./
 
-# Install dependencies.
-COPY ./bot/package.json ./
+# Install packages.
+RUN apt-get update -qq && \
+    apt-get install -qy \
+    unzip \
+    zip \
+    mariadb-client
+
+# Install Node dependencies.
+WORKDIR /app/bot
 RUN npm install -g nodemon && npm install
 
-# Copy sources and run starting from application main file.
-COPY ./bot/ ./
+# Run app through nodemon.
 ENTRYPOINT ["nodemon", "index.js"]

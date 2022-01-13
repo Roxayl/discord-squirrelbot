@@ -1,27 +1,33 @@
+require('dotenv').config({path: '/app/.env'});
+
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { clientId, guildId, token } = require('./config.json');
+const { Sequelize, QueryTypes } = require('sequelize');
 const dbConfig = require('./config/database.js');
-const Sequelize = require('sequelize');
-require("dotenv").config();
+
+console.log("Database configuration : ", dbConfig);
+
 
 // DB configuration.
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-    host: dbConfig.HOST,
-    dialect: dbConfig.dialect,
-    port: dbConfig.port,
-    operatorsAliases: false,
+const sequelize = new Sequelize(dbConfig.db, dbConfig.user, dbConfig.password, dbConfig.settings);
 
-    pool: {
-        max: dbConfig.pool.max,
-        min: dbConfig.pool.min,
-        acquire: dbConfig.pool.acquire,
-        idle: dbConfig.pool.idle
-    }
-});
+sequelize.authenticate()
+    .then(() => {
+        console.log('Connection to the database has been established successfully.');
+    })
+    .catch((err) => {
+        console.log('Unable to connect to the database:', err);
+    });
+
+// Testing query.
+(async () => {
+    console.log('Running query.');
+    const users = await sequelize.query("SELECT * FROM `forum_usernames`", { type: QueryTypes.SELECT });
+    console.log(users);
+})();
 
 
 // Instantiate client and rest objects.
@@ -39,14 +45,14 @@ for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
     commands.push(command.data.toJSON());
 }
+
 (async () => {
     try {
         await rest.put(
             Routes.applicationGuildCommands(clientId, guildId),
             { body: commands },
         );
-
-        console.log('Successfully registered application commands.');
+        console.log('Successfully registered application commands to Discord.');
     } catch (error) {
         console.error(error);
     }
