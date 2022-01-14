@@ -4,9 +4,9 @@ const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const { clientId, guildId, token } = require('./config.json');
+const discordConfig = require('./config/discord.js');
 const { Sequelize, QueryTypes } = require('sequelize');
-const dbConfig = require('./config/database.js');
+const dbConfig = require('./config/database_env.js');
 
 console.log("Database configuration : ", dbConfig);
 
@@ -22,17 +22,9 @@ sequelize.authenticate()
         console.log('Unable to connect to the database:', err);
     });
 
-// Testing query.
-(async () => {
-    console.log('Running query.');
-    const users = await sequelize.query("SELECT * FROM `forum_usernames`", { type: QueryTypes.SELECT });
-    console.log(users);
-})();
-
-
 // Instantiate client and rest objects.
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
-const rest = new REST({ version: '9' }).setToken(token);
+const rest = new REST({ version: '9' }).setToken(discordConfig.token);
 
 // Fetch all commands in the /commands directory.
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -49,7 +41,7 @@ for (const file of commandFiles) {
 (async () => {
     try {
         await rest.put(
-            Routes.applicationGuildCommands(clientId, guildId),
+            Routes.applicationGuildCommands(discordConfig.clientId, discordConfig.guildId),
             { body: commands },
         );
         console.log('Successfully registered application commands to Discord.');
@@ -93,4 +85,4 @@ client.on('interactionCreate', async interaction => {
 
 
 // Finally, we connect the bot to Discord.
-client.login(token);
+client.login(discordConfig.token);
