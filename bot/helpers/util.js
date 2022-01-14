@@ -1,3 +1,5 @@
+'use strict';
+
 let makeId = function(length) {
     let result           = '';
     let characters       = '0123456789abcdef';
