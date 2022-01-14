@@ -8,7 +8,7 @@ module.exports = {
     async execute(interaction) {
         const random = makeId(8);
         return interaction.reply({
-            content : 'Pong! ``(' + random + ')``',
+            content: 'Pong! ``(' + random + ')``',
             ephemeral: true
         });
     },

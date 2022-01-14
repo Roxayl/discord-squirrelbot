@@ -29,3 +29,4 @@ services:
         --collation-server=utf8mb4_unicode_ci]
     environment:
       MYSQL_ROOT_PASSWORD: root
+    restart: unless-stopped

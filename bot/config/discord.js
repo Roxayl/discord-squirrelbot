@@ -1,4 +1,4 @@
-require('dotenv').config({path: '/app/.env'});
+require('dotenv').config({ path: '/app/.env' });
 
 module.exports = {
     "clientId": process.env.BOT_CLIENT_ID,

@@ -1,4 +1,4 @@
-require('dotenv').config({path: '/app/.env'});
+require('dotenv').config({ path: '/app/.env' });
 
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
@@ -20,6 +20,7 @@ sequelize.authenticate()
     })
     .catch((err) => {
         console.log('Unable to connect to the database:', err);
+        throw err;
     });
 
 // Instantiate client and rest objects.
