@@ -1,13 +1,23 @@
 'use strict';
 
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const dbConfig = require('./../config/database_env.js');
 const Discord = require('./discord');
 
 module.exports = class Bootstrap {
+    #sequelize;
+    #dataTypes;
+    #discord;
+    static #app;
+
     constructor() {
-        this.sequelize = null;
-        this.discord = null;
+        this.#sequelize = null;
+        this.#dataTypes = null;
+        this.#discord   = null;
+
+        Bootstrap.#app = this;
+
+        this.init();
     }
 
     init() {
@@ -20,12 +30,11 @@ module.exports = class Bootstrap {
     }
 
     startDb() {
-        console.log("Database configuration : ", dbConfig);
-
-        this.sequelize = new Sequelize(
+        this.#sequelize = new Sequelize(
             dbConfig.db, dbConfig.user, dbConfig.password, dbConfig.settings);
+        this.#dataTypes = DataTypes;
 
-        sequelize.authenticate()
+        this.#sequelize.authenticate()
             .then(() => {
                 console.log('Connection to the database has been established successfully.');
             })
@@ -36,13 +45,21 @@ module.exports = class Bootstrap {
     }
 
     getDiscord() {
-        if (this.discord === null) {
-            this.discord = new Discord(this.db);
+        if (this.#discord === null) {
+            this.#discord = new Discord(this.#sequelize);
         }
-        return this.discord;
+        return this.#discord;
     }
 
     getDb() {
-        return this.db;
+        return this.#sequelize;
+    }
+
+    getDataTypes() {
+        return this.#dataTypes;
+    }
+
+    static getApp() {
+        return Bootstrap.#app;
     }
 }

@@ -7,20 +7,24 @@ const { Routes } = require('discord-api-types/v9');
 const discordConfig = require('./../config/discord.js');
 
 module.exports = class Bootstrap {
+    #client;
+    #rest;
+    #db;
+
     constructor(db) {
-        this.client = null;
-        this.rest = null;
-        this.db = db;
+        this.#client = null;
+        this.#rest = null;
+        this.#db = db;
     }
 
     init() {
-        this.startDiscord();
+        this.#startDiscord();
     }
 
-    startDiscord() {
+    #startDiscord() {
         // Instantiate client and rest objects.
-        this.client = new Client({ intents: [Intents.FLAGS.GUILDS] });
-        this.rest = new REST({ version: '9' }).setToken(discordConfig.token);
+        this.#client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+        this.#rest = new REST({ version: '9' }).setToken(discordConfig.token);
 
         // Fetch all commands in the /commands directory.
         const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -36,7 +40,7 @@ module.exports = class Bootstrap {
         // Query API to register application commands.
         (async () => {
             try {
-                await this.rest.put(
+                await this.#rest.put(
                     Routes.applicationGuildCommands(discordConfig.clientId, discordConfig.guildId),
                     { body: commands },
                 );
@@ -47,24 +51,24 @@ module.exports = class Bootstrap {
         })();
 
         // Fetch all commands from the /commands directory.
-        this.client.commands = new Collection();
+        this.#client.commands = new Collection();
         for (const file of commandFiles) {
             const command = require(`./../commands/${file}`);
             // Set a new item in the Collection
             // With the key as the command name and the value as the exported module
-            this.client.commands.set(command.data.name, command);
+            this.#client.commands.set(command.data.name, command);
         }
 
         // Debug ready state.
-        this.client.once('ready', () => {
+        this.#client.once('ready', () => {
             console.log('Ready!');
         });
 
         // Interact with commands.
-        this.client.on('interactionCreate', async interaction => {
+        this.#client.on('interactionCreate', async interaction => {
             if (!interaction.isCommand()) return;
 
-            const command = this.client.commands.get(interaction.commandName);
+            const command = this.#client.commands.get(interaction.commandName);
 
             if (!command) return;
 
@@ -80,6 +84,6 @@ module.exports = class Bootstrap {
         });
 
         // Finally, we connect the bot to Discord.
-        this.client.login(discordConfig.token);
+        this.#client.login(discordConfig.token);
     }
 }
