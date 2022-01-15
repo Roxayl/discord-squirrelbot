@@ -6,7 +6,7 @@ const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const discordConfig = require('./../config/discord.js');
 
-module.exports = class Bootstrap {
+module.exports = class Discord {
     #client;
     #rest;
     #db;
