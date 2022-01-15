@@ -7,15 +7,35 @@ const ForumUser = require('./../models/forumuser.js')(app.getDb(), app.getDataTy
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('registerforum')
-        .setDescription('Links Discord username to forum'),
+        .setDescription('Links Discord username to forum')
+        .addStringOption(option => option.setName('username')
+                                         .setDescription('Enter forum username.')),
     async execute(interaction) {
-        const discordId = "12345";
-        const forumUsername = "Roxel";
+        let user = interaction.options.getUser('target');
+        if (!user) {
+            user = interaction.user;
+        }
+
+        const discordId = user.id;
+        const forumUsername = interaction.options.getString('username');
+        if (!forumUsername) {
+            await interaction.reply({
+                content: "Please specify your forum username.",
+                ephemeral: true,
+                error: true
+            });
+            return;
+        }
 
         const forumUser = ForumUser.build({
             discordId: discordId,
             forumUsername: forumUsername,
         });
         forumUser.save();
+
+        await interaction.reply({
+            content: "Sending private message to " + forumUsername + " for Discord user " + user.tag + ".",
+            ephemeral: true
+        });
     },
 };
