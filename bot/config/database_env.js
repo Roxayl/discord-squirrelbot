@@ -5,7 +5,7 @@
 require('dotenv').config({ path: '/app/.env' });
 
 const env = process.env.NODE_ENV;
-const config = require('./database.js');
+const config = require('./database');
 
 module.exports = {
     user: config[env].username,

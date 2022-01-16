@@ -1,7 +1,7 @@
 'use strict';
 
 const { Sequelize, DataTypes } = require('sequelize');
-const dbConfig = require('./../config/database_env.js');
+const dbConfig = require('./../config/database_env');
 const Discord = require('./discord');
 
 module.exports = class Bootstrap {

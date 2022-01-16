@@ -1,7 +1,7 @@
 'use strict';
 
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { makeId } = require('./../helpers/util');
+const { generateRandomString } = require('./../helpers/util');
 
 module.exports = {
 
@@ -10,7 +10,7 @@ module.exports = {
         .setDescription('Replies with Pong!'),
 
     async execute(interaction) {
-        const random = makeId(8);
+        const random = generateRandomString(8);
         return interaction.reply({
             content: 'Pong! ``(' + random + ')``',
             ephemeral: true

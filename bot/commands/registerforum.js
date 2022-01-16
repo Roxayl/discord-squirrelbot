@@ -1,10 +1,10 @@
 'use strict';
 
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const app = require('./../services/bootstrap.js').getApp();
+const app = require('./../services/bootstrap').getApp();
 const https = require('https');
-const ForumUser = require('./../models/forumuser.js')(app.getDb(), app.getDataTypes());
-const servicesConfig = require('./../config/services.js');
+const ForumUser = require('./../models/forumuser')(app.getDb(), app.getDataTypes());
+const servicesConfig = require('./../config/services');
 
 const callRegisterEndpoint = async (interaction, forumUsername, discordId) => {
     const data = new TextEncoder().encode(

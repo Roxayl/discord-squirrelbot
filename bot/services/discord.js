@@ -4,7 +4,7 @@ const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const discordConfig = require('./../config/discord.js');
+const discordConfig = require('./../config/discord');
 
 module.exports = class Discord {
     #client;
@@ -61,11 +61,11 @@ module.exports = class Discord {
 
         // Debug ready state.
         this.#client.once('ready', () => {
-            console.log('Ready!');
+            console.log('Bot is ready to respond to commands.');
         });
 
         // Interact with commands.
-        this.#client.on('interactionCreate', async interaction => {
+        this.#client.on('interactionCreate', async (interaction) => {
             if (!interaction.isCommand()) return;
 
             const command = this.#client.commands.get(interaction.commandName);
