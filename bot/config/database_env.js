@@ -1,5 +1,7 @@
 'use strict';
 
+// Require dotenv from database_env.js specifically so that the correct .env file is parsed
+// when executing from the Sequelize CLI.
 require('dotenv').config({ path: '/app/.env' });
 
 const env = process.env.NODE_ENV;

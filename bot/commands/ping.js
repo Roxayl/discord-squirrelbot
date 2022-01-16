@@ -4,9 +4,11 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { makeId } = require('./../helpers/util');
 
 module.exports = {
+
     data: new SlashCommandBuilder()
         .setName('ping')
         .setDescription('Replies with Pong!'),
+
     async execute(interaction) {
         const random = makeId(8);
         return interaction.reply({
@@ -14,4 +16,5 @@ module.exports = {
             ephemeral: true
         });
     },
+
 };
