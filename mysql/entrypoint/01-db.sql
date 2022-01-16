@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS `squirrelbot`;
+CREATE DATABASE IF NOT EXISTS `squirrelbot_dev`;
+CREATE DATABASE IF NOT EXISTS `squirrelbot_test`;

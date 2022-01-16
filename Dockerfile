@@ -14,6 +14,7 @@ RUN apt-get update -qq && \
     apt-get install -qy \
     unzip \
     zip \
+    vim \
     mariadb-client
 
 # Install Node dependencies.

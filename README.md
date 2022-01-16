@@ -57,14 +57,22 @@ instance de l'application !
    > docker-compose up -d
    ```
 
-3. Il faut ensuite créer et initialiser la base de données. Pour cela, accédez au 
-   conteneur de l'application et exécutez les migrations.
+3. Il faut ensuite installer les dépendances de l'application, à partir du conteneur
+   de l'application. Pour cela, exécuter les commandes suivantes :
    ```bash
    > docker exec -ti squirrelbot_bot /bin/bash
-   > npx sequelize-cli db:migrate
+   > npm install
    ```
 
-4. Voilà ! Vous devriez voir votre bot s'exécuter sur le serveur spécifié, dans la 
+4. Ensuite, il faut créer et initialiser la base de données. Pour cela, accédez au 
+   conteneur de l'application et exécutez les migrations. Vous pouvez ensuite sortir
+   du conteneur de l'application avec la commande ``exit``.
+   ```bash
+   > npx sequelize-cli db:migrate
+   > exit
+   ```
+
+5. Voilà ! Vous devriez voir votre bot s'exécuter sur le serveur spécifié, dans la 
    liste des membres. À partir d'un salon textuel accessible au bot, vous pouvez 
    vérifier que le bot répond bien aux commandes que vous exécutez, en tapant 
    ``/ping`` dans la fenêtre de chat.
