@@ -39,10 +39,10 @@ module.exports = class Bootstrap {
 
         this.#sequelize.authenticate()
             .then(() => {
-                console.log('Connection to the database has been established successfully.');
+                console.log('[database] Connection to the database has been established successfully.');
             })
             .catch((err) => {
-                console.log('Unable to connect to the database:', err);
+                console.log('[database] Unable to connect to the database:', err);
                 throw err;
             });
     }

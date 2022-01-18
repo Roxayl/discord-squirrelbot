@@ -44,7 +44,7 @@ module.exports = class Discord {
                     Routes.applicationGuildCommands(discordConfig.clientId, discordConfig.guildId),
                     { body: commands },
                 );
-                console.log('Successfully registered application commands to Discord.');
+                console.log('[discord] Successfully registered application commands to Discord.');
             } catch (error) {
                 console.error(error);
             }
@@ -54,6 +54,7 @@ module.exports = class Discord {
         this.#client.commands = new Collection();
         for (const file of commandFiles) {
             const command = require(`./../commands/${file}`);
+            console.log("[discord] Registering command '" + command.data.name + "'...");
             // Set a new item in the Collection
             // With the key as the command name and the value as the exported module
             this.#client.commands.set(command.data.name, command);
@@ -61,7 +62,7 @@ module.exports = class Discord {
 
         // Debug ready state.
         this.#client.once('ready', () => {
-            console.log('Bot is ready to respond to commands.');
+            console.log('[discord] Bot is ready to respond to commands.');
         });
 
         // Interact with commands.
