@@ -2,52 +2,43 @@
 
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const app = require('./../services/bootstrap').getApp();
-const https = require('https');
+const axios = require('axios');
+const services = require('./../config/services');
 const ForumUser = require('./../models/forumuser')(app.getDb(), app.getDataTypes());
 const servicesConfig = require('./../config/services');
 
 const callRegisterEndpoint = async (interaction, forumUsername, discordId) => {
-    const data = new TextEncoder().encode(
-        JSON.stringify({
-            authKey: servicesConfig.register.auth.key,
-            username: forumUsername,
-            discordId: discordId
-        })
-    );
-
-    // Set HTTP options and payload.
-    let options = servicesConfig.register.requestOptions;
-    options.headers = {
-        'Content-Type': 'application/json',
-        'Content-Length': data.length
+    const requestBody = {
+        authKey: servicesConfig.register.auth.key,
+        username: forumUsername,
+        discordId: discordId,
+        validationUrl: 'testingUrl'
     };
 
-    // Create request.
-    const request = https.request(options, (response) => {
-        console.log(`statusCode: ${response.statusCode}`);
+    const useTls = servicesConfig.register.settings.tls != 0;
+    let url = useTls ? 'https://' : 'http://';
+    url += servicesConfig.register.requestOptions.hostname + '/' + servicesConfig.register.requestOptions.path;
 
-        response.on('data', d => {
-            process.stdout.write(d);
-        });
-
-        if(response.statusCode !== 200) {
+    axios.post(url, requestBody, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then((response) => {
+            console.log(`statusCode: ${response.statusCode}`);
+            console.log(response);
+            interaction.followUp({
+                content: "Private message sent successfully to " + forumUsername + ".",
+                ephemeral: true
+            });
+        })
+        .catch((error) => {
+            console.error(error);
             interaction.followUp({
                 content: "Error when sending private message.",
                 ephemeral: true
             });
-        }
-    });
-
-    request.on('error', (error) => {
-        console.error(error);
-        interaction.followUp({
-            content: "Error when sending private message.",
-            ephemeral: true
         });
-    });
-
-    request.write(data);
-    request.end();
 };
 
 module.exports = {
