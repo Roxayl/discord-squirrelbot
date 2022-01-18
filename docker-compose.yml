@@ -6,7 +6,8 @@ services:
     container_name: squirrelbot_bot
     build: .
     ports:
-      - "8085:8085"
+      - "8085:8085" # main Node app
+      - "3085:3000" # Express webapp
     volumes:
       - .:/app
     links:

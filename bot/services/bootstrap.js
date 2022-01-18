@@ -3,17 +3,20 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const dbConfig = require('./../config/database_env');
 const Discord = require('./discord');
+const Webapp = require('./webapp');
 
 module.exports = class Bootstrap {
+    #discord;
+    #webapp;
     #sequelize;
     #dataTypes;
-    #discord;
     static #app;
 
     constructor() {
+        this.#discord   = null;
+        this.#webapp    = null;
         this.#sequelize = null;
         this.#dataTypes = null;
-        this.#discord   = null;
 
         Bootstrap.#app = this;
 
@@ -49,6 +52,13 @@ module.exports = class Bootstrap {
             this.#discord = new Discord(this.#sequelize);
         }
         return this.#discord;
+    }
+
+    getWebapp() {
+        if (this.#webapp === null) {
+            this.#webapp = new Webapp();
+        }
+        return this.#webapp;
     }
 
     getDb() {
