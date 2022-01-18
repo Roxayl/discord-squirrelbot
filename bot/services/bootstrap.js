@@ -6,10 +6,26 @@ const Discord = require('./discord');
 const Webapp = require('./webapp');
 
 module.exports = class Bootstrap {
+    /**
+     * @type {Discord}
+     */
     #discord;
+
+    /**
+     * @type {Webapp}
+     */
     #webapp;
+
+    /**
+     * @type {Sequelize}
+     */
     #sequelize;
+
     #dataTypes;
+
+    /**
+     * @type {Bootstrap}
+     */
     static #app;
 
     constructor() {
@@ -18,7 +34,7 @@ module.exports = class Bootstrap {
         this.#sequelize = null;
         this.#dataTypes = null;
 
-        Bootstrap.#app = this;
+        Bootstrap.#app  = this;
 
         this.init();
     }

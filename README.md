@@ -28,7 +28,8 @@ de manière conteneurisée via Docker.
 Avant d'utiliser le bot, il convient de générer un certain nombre de secrets via 
 les outils pour les développeurs fournis par Discord.
 
-Pour cela, dans la [page dédiée aux développeurs Discord](https://discord.com/developers/applications), 
+Pour cela, dans la 
+[page dédiée aux développeurs Discord](https://discord.com/developers/applications), 
 créez une nouvelle application.
 
 Vous devez ensuite récupérer **l'identifiant de l'application** (client_id),
@@ -87,11 +88,13 @@ L'application serveur est développée en JavaScript basée sur l'environnement
 d'exécution de Node.js v16. L'application utilise en particulier 
 [discord.js](https://discord.js.org/) pour interagir avec l'API Discord, et l'ORM
 [Sequelize](https://sequelize.org/) pour interagir avec la base de données. Le 
-stockage des données est effectuée grâce au système de gestion de base de données [MySQL](https://www.mysql.com/fr/).
+stockage des données est effectuée grâce au système de gestion de base de données 
+[MySQL](https://www.mysql.com/fr/).
 
 ### Commandes
 
-SquirrelBot ajoute des [commandes slash](https://support.discord.com/hc/fr/articles/1500000368501-Slash-Commands-FAQ)
+SquirrelBot ajoute des 
+[commandes slash](https://support.discord.com/hc/fr/articles/1500000368501-Slash-Commands-FAQ)
 aux serveurs Discord sur lesquels il est installé. Le tableau ci-dessous récapitule
 l'ensemble des commandes existantes.
 

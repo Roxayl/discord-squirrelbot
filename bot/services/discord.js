@@ -7,8 +7,19 @@ const { Routes } = require('discord-api-types/v9');
 const discordConfig = require('./../config/discord');
 
 module.exports = class Discord {
+    /**
+     * @type {Client}
+     */
     #client;
+
+    /**
+     * @type {REST}
+     */
     #rest;
+
+    /**
+     * @type {import('sequelize').Sequelize}
+     */
     #db;
 
     constructor(db) {
@@ -19,6 +30,10 @@ module.exports = class Discord {
 
     init() {
         this.#startDiscord();
+    }
+
+    getClient() {
+        return this.#client;
     }
 
     #startDiscord() {

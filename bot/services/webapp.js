@@ -23,7 +23,7 @@ module.exports = class Webapp {
 
     init() {
         console.log('[webapp] Starting Express-based webapp...');
-        
+
         this.#app = express();
 
         this.router();

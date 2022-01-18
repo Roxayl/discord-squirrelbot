@@ -74,7 +74,8 @@ module.exports = {
         const forumUser = ForumUser.build({
             discordId: discordId,
             forumUsername: forumUsername,
-            validationKey: validationKey
+            validationKey: validationKey,
+            isValidated: false
         });
         await forumUser.save();
 

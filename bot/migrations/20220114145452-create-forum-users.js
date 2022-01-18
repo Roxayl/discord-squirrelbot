@@ -19,6 +19,9 @@ module.exports = {
             validationKey: {
                 type: Sequelize.STRING
             },
+            isValidated: {
+                type: Sequelize.BOOLEAN
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE
