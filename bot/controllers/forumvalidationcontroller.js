@@ -6,6 +6,7 @@ module.exports = class ForumValidationController extends Controller {
     constructor(request, response) {
         super(request, response);
 
-        this.getResponse().send('Lucyane');
+        this.response.send('<h3>Lucyane</h3><br>'
+            + this.url('coucou') + '<br>' + Controller.url('coucou'));
     }
 }

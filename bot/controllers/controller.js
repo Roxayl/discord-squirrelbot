@@ -1,24 +1,34 @@
 'use strict';
 
+const webappConfig = require('./../config/webapp');
+
 module.exports = class Controller {
-    #request;
-    #response;
-
-    constructor(request, response) {
-        this.#request = request;
-        this.#response = response;
+    constructor(req, res) {
+        this.request = req;
+        this.response = res;
     }
 
-    getResponse() {
-        return this.#request;
+    static #generatePath(path) {
+        if(typeof path === 'undefined') {
+            path = '';
+        } else {
+            path = '/' + path;
+        }
+        return path;
     }
 
-    getRequest() {
-        return this.#response;
+    url(path) {
+        path = Controller.#generatePath(path);
+        return this.request.protocol + '://' + this.request.get('host') + path;
     }
 
-    static url() {
-        request = this.#request;
-        request.protocol + '://' + request.get('host') + request.originalUrl;
+    static url(path) {
+        path = Controller.#generatePath(path);
+        const url = webappConfig.url;
+        return url + path;
+    }
+
+    fullUrl() {
+        this.request.protocol + '://' + this.request.get('host') + this.request.originalUrl;
     }
 }

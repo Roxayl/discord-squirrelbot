@@ -6,18 +6,20 @@ const app = require('./../services/bootstrap').getApp();
 const axios = require('axios');
 const ForumUser = require('./../models/forumuser')(app.getDb(), app.getDataTypes());
 const servicesConfig = require('./../config/services');
+const Controller = require('../controllers/controller');
 
 const callRegisterEndpoint = async (interaction, forumUser) => {
+    const useTls = servicesConfig.register.settings.tls != 0;
+    let url = useTls ? 'https://' : 'http://';
+    url += servicesConfig.register.requestOptions.hostname + '/' + servicesConfig.register.requestOptions.path;
+
+    const validationUrl = Controller.url('discord-forum-validate?validationKey=' + forumUser.validationKey);
     const requestBody = {
         authKey: servicesConfig.register.auth.key,
         username: forumUser.forumUsername,
         discordId: forumUser.discordId,
-        validationUrl: 'http://localhost/test?validationKey=' + forumUser.validationKey
+        validationUrl: validationUrl
     };
-
-    const useTls = servicesConfig.register.settings.tls != 0;
-    let url = useTls ? 'https://' : 'http://';
-    url += servicesConfig.register.requestOptions.hostname + '/' + servicesConfig.register.requestOptions.path;
 
     axios.post(url, requestBody, {
         headers: {
