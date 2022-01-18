@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
 
     ForumUser.init({
         discordId: DataTypes.STRING,
-        forumUsername: DataTypes.STRING
+        forumUsername: DataTypes.STRING,
+        validationKey: DataTypes.STRING
     }, {
         sequelize,
         modelName: 'ForumUser',

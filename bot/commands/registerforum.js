@@ -1,18 +1,18 @@
 'use strict';
 
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { generateRandomString } = require('./../helpers/util');
 const app = require('./../services/bootstrap').getApp();
 const axios = require('axios');
-const services = require('./../config/services');
 const ForumUser = require('./../models/forumuser')(app.getDb(), app.getDataTypes());
 const servicesConfig = require('./../config/services');
 
-const callRegisterEndpoint = async (interaction, forumUsername, discordId) => {
+const callRegisterEndpoint = async (interaction, forumUser) => {
     const requestBody = {
         authKey: servicesConfig.register.auth.key,
-        username: forumUsername,
-        discordId: discordId,
-        validationUrl: 'testingUrl'
+        username: forumUser.forumUsername,
+        discordId: forumUser.discordId,
+        validationUrl: 'http://localhost/test?validationKey=' + forumUser.validationKey
     };
 
     const useTls = servicesConfig.register.settings.tls != 0;
@@ -28,7 +28,7 @@ const callRegisterEndpoint = async (interaction, forumUsername, discordId) => {
             console.log(`statusCode: ${response.statusCode}`);
             console.log(response);
             interaction.followUp({
-                content: "Private message sent successfully to " + forumUsername + ".",
+                content: "Private message sent successfully to " + forumUser.forumUsername + ".",
                 ephemeral: true
             });
         })
@@ -67,9 +67,12 @@ module.exports = {
             return;
         }
 
+        const validationKey = generateRandomString(12);
+
         const forumUser = ForumUser.build({
             discordId: discordId,
             forumUsername: forumUsername,
+            validationKey: validationKey
         });
         await forumUser.save();
 
@@ -78,7 +81,7 @@ module.exports = {
             ephemeral: true
         });
 
-        callRegisterEndpoint(interaction, forumUsername, discordId);
+        callRegisterEndpoint(interaction, forumUser);
     },
 
 };

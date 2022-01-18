@@ -16,6 +16,9 @@ module.exports = {
             forumUsername: {
                 type: Sequelize.STRING
             },
+            validationKey: {
+                type: Sequelize.STRING
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE
