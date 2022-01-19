@@ -1,11 +1,11 @@
-'use strict';
+'use strict'
 
-const webappConfig = require('./../config/webapp');
+const webappConfig = require('./../config/webapp')
 
 module.exports = class Controller {
-    constructor(req, res) {
-        this.request = req;
-        this.response = res;
+    constructor (req, res) {
+        this.request = req
+        this.response = res
     }
 
     /**
@@ -13,13 +13,13 @@ module.exports = class Controller {
      * @param path
      * @returns {string}
      */
-    static #generatePath(path) {
-        if(typeof path === 'undefined') {
-            path = '';
+    static #generatePath (path) {
+        if (typeof path === 'undefined') {
+            path = ''
         } else {
-            path = '/' + path;
+            path = '/' + path
         }
-        return path;
+        return path
     }
 
     /**
@@ -27,9 +27,9 @@ module.exports = class Controller {
      * @param path Path starting from the base URL.
      * @returns {string}
      */
-    url(path) {
-        path = Controller.#generatePath(path);
-        return this.request.protocol + '://' + this.request.get('host') + path;
+    url (path) {
+        path = Controller.#generatePath(path)
+        return this.request.protocol + '://' + this.request.get('host') + path
     }
 
     /**
@@ -37,16 +37,16 @@ module.exports = class Controller {
      * @param path Path starting from the base URL.
      * @returns {string}
      */
-    static url(path) {
-        path = Controller.#generatePath(path);
-        const url = webappConfig.url;
-        return url + path;
+    static url (path) {
+        path = Controller.#generatePath(path)
+        const url = webappConfig.url
+        return url + path
     }
 
     /**
      * Generates the full URL coming from the request.
      */
-    fullUrl() {
-        return this.request.protocol + '://' + this.request.get('host') + this.request.originalUrl;
+    fullUrl () {
+        return this.request.protocol + '://' + this.request.get('host') + this.request.originalUrl
     }
 }

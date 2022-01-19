@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { generateRandomString } = require('./../helpers/util');
+const { SlashCommandBuilder } = require('@discordjs/builders')
+const { generateRandomString } = require('./../helpers/util')
 
 module.exports = {
 
@@ -9,12 +9,12 @@ module.exports = {
         .setName('ping')
         .setDescription('Replies with Pong!'),
 
-    async execute(interaction) {
-        const random = generateRandomString(8);
+    async execute (interaction) {
+        const random = generateRandomString(8)
         return interaction.reply({
             content: 'Pong! ``(' + random + ')``',
             ephemeral: true
-        });
-    },
+        })
+    }
 
-};
+}

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
     register: {
@@ -14,4 +14,4 @@ module.exports = {
             tls: process.env.REGISTER_ENDPOINT_TLS
         }
     }
-};
+}

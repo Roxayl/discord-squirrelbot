@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
 module.exports = {
-    
+
     up: async (queryInterface, Sequelize) => {
         await queryInterface.createTable('ForumUsers', {
             id: {
@@ -12,11 +12,11 @@ module.exports = {
             },
             discordId: {
                 allowNull: false,
-                type: Sequelize.STRING,
+                type: Sequelize.STRING
             },
             forumUsername: {
                 allowNull: false,
-                type: Sequelize.STRING,
+                type: Sequelize.STRING
             },
             validationKey: {
                 allowNull: false,
@@ -35,11 +35,11 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.DATE
             }
-        });
+        })
     },
 
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable('ForumUsers');
+        await queryInterface.dropTable('ForumUsers')
     }
 
-};
+}

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
     /**
@@ -7,12 +7,12 @@ module.exports = {
      * @returns {string} Hexadecimal string.
      */
     generateRandomString: (length) => {
-        let result           = '';
-        let characters       = '0123456789abcdef';
-        let charactersLength = characters.length;
+        let result = ''
+        const characters = '0123456789abcdef'
+        const charactersLength = characters.length
         for (let i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-       }
-       return result;
+            result += characters.charAt(Math.floor(Math.random() * charactersLength))
+        }
+        return result
     }
-};
+}

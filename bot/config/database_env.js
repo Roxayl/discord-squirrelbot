@@ -1,11 +1,11 @@
-'use strict';
+'use strict'
 
 // Require dotenv from database_env.js specifically so that the correct .env file is parsed
 // when executing from the Sequelize CLI.
-require('dotenv').config({ path: '/app/.env' });
+require('dotenv').config({ path: '/app/.env' })
 
-const env = process.env.NODE_ENV;
-const config = require('./database');
+const env = process.env.NODE_ENV
+const config = require('./database')
 
 module.exports = {
     user: config[env].username,
@@ -23,4 +23,4 @@ module.exports = {
             acquire: 30000
         }
     }
-};
+}
