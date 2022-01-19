@@ -60,6 +60,10 @@ module.exports = class ForumValidationController extends Controller {
         user.isValidated = true;
         await user.save();
 
+        const channelId = '830537979893645343'; // "bienvenue" channel.
+        const notifyChannel = guild.channels.cache.get(channelId);
+        notifyChannel?.send(member.user.tag + ' added to role ' + role.name + '! Congrats! <3');
+
         this.response.json({
             status: 'success',
             message: 'Role attributed successfully to Discord user ' + member.user.tag + '.'

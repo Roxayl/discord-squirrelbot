@@ -28,14 +28,24 @@ module.exports = class Discord {
         this.#db = db;
     }
 
+    /**
+     * Start Discord bot.
+     */
     init() {
         this.#startDiscord();
     }
 
+    /**
+     * Returns the Client instance from Discord.js.
+     * @returns {Client}
+     */
     getClient() {
         return this.#client;
     }
 
+    /**
+     * Start Discord bot, register commands, and listen to specific events.
+     */
     #startDiscord() {
         // Instantiate client and rest objects.
         this.#client = new Client({ intents: [Intents.FLAGS.GUILDS] });
@@ -82,11 +92,11 @@ module.exports = class Discord {
 
         // Interact with commands.
         this.#client.on('interactionCreate', async (interaction) => {
-            if (!interaction.isCommand()) return;
+            if (! interaction.isCommand()) return;
 
             const command = this.#client.commands.get(interaction.commandName);
 
-            if (!command) return;
+            if (! command) return;
 
             try {
                 await command.execute(interaction);

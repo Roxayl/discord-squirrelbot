@@ -13,7 +13,7 @@ module.exports = class Webapp {
 
     /**
      * Port number where the webapp listens for requests.
-     * @type {number}
+     * @type {number|string}
      */
     #port;
 
@@ -21,6 +21,9 @@ module.exports = class Webapp {
         this.#port = webappConfig.port;
     }
 
+    /**
+     * Start Express-based app and listen through the port specified in the WEBAPP_PORT environment variable.
+     */
     init() {
         console.log('[webapp] Starting Express-based webapp...');
 
@@ -33,6 +36,9 @@ module.exports = class Webapp {
         });
     }
 
+    /**
+     * Register webapp routes.
+     */
     router() {
         console.log('[webapp] Registering routes...');
 
