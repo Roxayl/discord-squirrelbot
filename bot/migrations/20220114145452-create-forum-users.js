@@ -11,15 +11,20 @@ module.exports = {
                 type: Sequelize.INTEGER
             },
             discordId: {
-                type: Sequelize.STRING
+                allowNull: false,
+                type: Sequelize.STRING,
             },
             forumUsername: {
-                type: Sequelize.STRING
+                allowNull: false,
+                type: Sequelize.STRING,
             },
             validationKey: {
-                type: Sequelize.STRING
+                allowNull: false,
+                type: Sequelize.STRING,
+                unique: true
             },
             isValidated: {
+                allowNull: false,
                 type: Sequelize.BOOLEAN
             },
             createdAt: {

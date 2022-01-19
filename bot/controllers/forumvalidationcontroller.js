@@ -39,6 +39,11 @@ module.exports = class ForumValidationController extends Controller {
             return;
         }
 
+        if(user.isValidated) {
+            this.response.json({ status: 'error', message: 'Validation key already used.' });
+            return;
+        }
+
         const client = app.getDiscord().getClient();
         const guild = client.guilds.cache.get(discordConfig.guildId);
         const roleForumGC = '328500694468263938';
