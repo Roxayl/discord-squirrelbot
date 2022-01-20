@@ -10,17 +10,17 @@ module.exports = class Discord {
     /**
      * @type {Client}
      */
-    #client;
+    #client
 
     /**
      * @type {REST}
      */
-    #rest;
+    #rest
 
     /**
      * @type {import('sequelize').Sequelize}
      */
-    #db;
+    #db
 
     constructor (db) {
         this.#client = null

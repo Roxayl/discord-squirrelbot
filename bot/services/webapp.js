@@ -9,13 +9,13 @@ module.exports = class Webapp {
      * Express app instance.
      * @type {Express}
      */
-    #app;
+    #app
 
     /**
      * Port number where the webapp listens for requests.
      * @type {number|string}
      */
-    #port;
+    #port
 
     constructor () {
         this.#port = webappConfig.port

@@ -9,24 +9,24 @@ module.exports = class Bootstrap {
     /**
      * @type {Discord}
      */
-    #discord;
+    #discord
 
     /**
      * @type {Webapp}
      */
-    #webapp;
+    #webapp
 
     /**
      * @type {Sequelize}
      */
-    #sequelize;
+    #sequelize
 
-    #dataTypes;
+    #dataTypes
 
     /**
      * @type {Bootstrap}
      */
-    static #app;
+    static #app
 
     constructor () {
         this.#discord = null
