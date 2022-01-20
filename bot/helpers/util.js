@@ -3,10 +3,15 @@
 module.exports = {
     /**
      * Generates a valid hexadecimal-based string.
-     * @param {number} length String length, necessarily as an integer.
+     * @param {number|string} length String length, necessarily as an integer.
      * @returns {string} Hexadecimal string.
      */
     generateRandomString: (length) => {
+        length = parseInt(length)
+        if (length < 1 || isNaN(length)) {
+            throw new RangeError('Length must be a positive integer.')
+        }
+
         let result = ''
         const characters = '0123456789abcdef'
         const charactersLength = characters.length

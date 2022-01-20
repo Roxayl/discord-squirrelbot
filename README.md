@@ -32,8 +32,8 @@ L'application serveur est développée en JavaScript basée sur l'environnement
 d'exécution de Node.js (version 16). L'application utilise en particulier
 [discord.js](https://discord.js.org/) (version 13) pour interagir avec l'API Discord, 
 et l'ORM [Sequelize](https://sequelize.org/) (version 6) pour interagir avec la base 
-de données. Par ailleurs, SquirrelBot fournit par ailleurs un service Web reposant 
-sur [Express](https://expressjs.com/fr/) (version 4).
+de données. Par ailleurs, SquirrelBot fournit un service Web reposant sur 
+[Express](https://expressjs.com/fr/) (version 4).
 
 Le stockage des données est effectuée grâce au système de gestion de 
 base de données [MySQL](https://www.mysql.com/fr/) (version 8).
@@ -95,6 +95,10 @@ instance de l'application !
 
 ## Développement et tests
 
+> NB : l'ensemble des commandes ci-dessous doivent être exécutées à partir du conteneur 
+> de l'application. Pour y accéder, vous pouvez taper en ligne de commande sur la machine 
+> hôte : ``docker exec -ti squirrelbot_bot /bin/bash``.
+
 L'application utilise le gestionnaire de dépendances de Node 
 ([NPM](https://www.npmjs.com/)) afin de gérer ses librairies externes. Vous pouvez 
 mettre à jour les dépendances à partir du conteneur de l'application, à partir de 
@@ -103,7 +107,7 @@ la commande ``npm update``.
 [ESLint](https://eslint.org/) fournit des outils d'[analyse statique](https://fr.wikipedia.org/wiki/Analyse_statique_de_programmes) 
 afin de détecter des erreurs de programmation et mettre en forme le code source 
 suivant la convention [Standard](https://standardjs.com/). Vous pouvez exécuter 
-l'analyse de code à partir du conteneur de l'application, avec la commande suivante ;
+l'analyse de code à partir du conteneur de l'application, avec la commande suivante :
 
 ```bash
 > npx eslint . --ext .js
@@ -115,6 +119,10 @@ pouvez ajouter l'option ``--fix`` à la commande ci-dessus.
 ```bash
 > npx eslint . --ext .js --fix
 ```
+
+SquirrelBot utilise [Jest](https://jestjs.io/fr/) comme framework de test. Les tests 
+automatisés sont placés dans le répertoire [bot/tests/](bot/tests). Pour lancer l'ensemble 
+des tests, vous pouvez exécuter la commande ```npm run test```.
 
 ## Structure de l'application
 
