@@ -4,6 +4,8 @@ const Bootstrap = require('./services/bootstrap')
 
 const app = new Bootstrap()
 
-app.getDiscord().init()
+app.init().then(() => {
+    app.getDiscord().init()
 
-app.getWebapp().init()
+    app.getWebapp().init()
+})

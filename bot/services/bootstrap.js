@@ -35,31 +35,33 @@ module.exports = class Bootstrap {
         this.#dataTypes = null
 
         Bootstrap.#app = this
-
-        this.init()
     }
 
-    init () {
-        this.fetchEnvironment()
-        this.startDb()
+    async init () {
+        Bootstrap.#fetchEnvironment()
+        await this.startDb()
     }
 
     /**
      * Load .env file and store environment variables to be accessed through process.env.
      */
-    fetchEnvironment () {
-        require('dotenv').config({ path: '/app/.env' })
+    static #fetchEnvironment () {
+        const path = '/app/.env'
+        console.log('[env] Loading environment variables from ' + path + '.')
+
+        require('dotenv').config({ path: path })
     }
 
     /**
      * Initialize database connection and set the {@link #sequelize} object and {@link #dataTypes} class.
      */
-    startDb () {
+    async startDb () {
+        console.log('[database] Initializing database connection.')
         this.#sequelize = new Sequelize(
             dbConfig.db, dbConfig.user, dbConfig.password, dbConfig.settings)
         this.#dataTypes = DataTypes
 
-        this.#sequelize.authenticate()
+        await this.#sequelize.authenticate()
             .then(() => {
                 console.log('[database] Connection to the database has been established successfully.')
             })
@@ -96,6 +98,9 @@ module.exports = class Bootstrap {
      * @returns {Sequelize}
      */
     getDb () {
+        if (!(this.#sequelize instanceof Sequelize)) {
+            throw new TypeError('#sequelize is not an instance of Sequelize.')
+        }
         return this.#sequelize
     }
 
@@ -108,6 +113,9 @@ module.exports = class Bootstrap {
      * @returns {Bootstrap}
      */
     static getApp () {
+        if (!(this.#app instanceof Bootstrap)) {
+            throw new TypeError('#app is not an instance of Bootstrap.')
+        }
         return Bootstrap.#app
     }
 }

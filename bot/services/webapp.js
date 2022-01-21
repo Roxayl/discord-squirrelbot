@@ -9,7 +9,7 @@ module.exports = class Webapp {
      * Express app instance.
      * @type {Express}
      */
-    #app
+    #webapp
 
     /**
      * Port number where the webapp listens for requests.
@@ -27,11 +27,11 @@ module.exports = class Webapp {
     init () {
         console.log('[webapp] Starting Express-based webapp...')
 
-        this.#app = express()
+        this.#webapp = express()
 
         this.router()
 
-        this.#app.listen(this.#port, () => {
+        this.#webapp.listen(this.#port, () => {
             console.log('[webapp] Webapp services listening on port ' + this.#port + '.')
         })
     }
@@ -42,6 +42,6 @@ module.exports = class Webapp {
     router () {
         console.log('[webapp] Registering routes...')
 
-        this.#app.get('/discord-forum-validate', (req, res) => new ForumValidationController(req, res))
+        this.#webapp.get('/discord-forum-validate', (req, res) => new ForumValidationController(req, res))
     }
 }
