@@ -1,6 +1,9 @@
 SquirrelBot
 ===========================
 
+![Code coverage](bot/tests/coverage/badge.svg)
+[![Discord](https://img.shields.io/discord/328496654514782209)](https://discord.gg/qPSn8nsS2p)
+
 SquirrelBot est un bot pour [Discord](https://discord.com/) permettant d'apporter de 
 nouvelles fonctionnalités adaptées à la communauté de Génération City.
 

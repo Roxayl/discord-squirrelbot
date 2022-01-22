@@ -4,8 +4,9 @@
   "description": "Discord bot for the Generation City community.",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose --silent",
-    "start": "npm install && npm index.js"
+    "start": "npm install && npm index.js",
+    "test": "jest --verbose --silent --coverage",
+    "test:badges": "npm run test && make-coverage-badge --report-path './tests/coverage/coverage-summary.json' --output-path './tests/coverage/badge.svg'"
   },
   "keywords": [
     "generation-city, discord"
@@ -34,6 +35,7 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
-    "jest": "^27.4.7"
+    "jest": "^27.4.7",
+    "make-coverage-badge": "^1.1.2"
   }
 }
