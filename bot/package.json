@@ -4,11 +4,11 @@
   "description": "Discord bot for the Generation City community.",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose false",
+    "test": "jest --verbose --silent",
     "start": "npm install && npm index.js"
   },
   "keywords": [
-    "generation-city"
+    "generation-city, discord"
   ],
   "author": "Roxel Lay",
   "license": "proprietary",

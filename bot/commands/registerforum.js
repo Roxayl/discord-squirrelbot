@@ -32,7 +32,7 @@ module.exports = {
      * Call private message sender endpoint.
      * @param {import('discord.js').Interaction} interaction
      * @param {ForumUser} forumUser
-     * @returns {Promise<void>}
+     * @returns {Promise<boolean>} True si la méthode réussit, false sinon
      */
     callRegisterEndpoint: async (interaction, forumUser) => {
         /* eslint-disable-next-line eqeqeq */
@@ -48,25 +48,27 @@ module.exports = {
             validationUrl: validationUrl
         }
 
-        axios.post(url, requestBody, {
+        return await axios.post(url, requestBody, {
             headers: {
                 'Content-Type': 'application/json'
             }
         })
-            .then((response) => {
+            .then(async (response) => {
                 console.log(`statusCode: ${response.statusCode}`)
                 console.log(response)
-                interaction.followUp({
+                await interaction.followUp({
                     content: 'Private message sent successfully to ' + forumUser.forumUsername + '.',
                     ephemeral: true
                 })
+                return true
             })
-            .catch((error) => {
+            .catch(async (error) => {
                 console.error(error)
-                interaction.followUp({
+                await interaction.followUp({
                     content: 'Error when sending private message.',
                     ephemeral: true
                 })
+                return false
             })
     },
 

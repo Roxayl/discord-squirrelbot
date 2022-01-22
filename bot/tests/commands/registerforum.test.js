@@ -29,7 +29,7 @@ describe('callRegisterEndpoint', () => {
 
     beforeEach(() => {
         interaction = {
-            followUp: () => true
+            followUp: jest.fn().mockImplementation(() => true)
         }
 
         forumUser = {
@@ -37,7 +37,7 @@ describe('callRegisterEndpoint', () => {
             discordId: '123456789',
             forumUsername: 'Lucyane',
             isValidated: false,
-            save: jest.fn().mockReturnValue(true)
+            save: jest.fn().mockImplementation(() => true)
         }
     })
 
@@ -45,22 +45,56 @@ describe('callRegisterEndpoint', () => {
         app.getDb().close()
     })
 
-    it('function executes without error after success', async () => {
-        axios.post.mockResolvedValue({
-            status: 'success',
-            message: 'testing message'
+    describe('on successful post request', () => {
+        beforeEach(() => {
+            axios.post.mockResolvedValue({
+                status: 'success',
+                message: 'testing message'
+            })
         })
 
-        expect(async () => {
-            await registerforum.callRegisterEndpoint(interaction, forumUser)
-        }).not.toThrow()
+        it('executes without error after success', () => {
+            expect(registerforum.callRegisterEndpoint(interaction, forumUser)).resolves.not.toThrow()
+        })
+
+        it('posts correct followUp message on success', () => {
+            return registerforum.callRegisterEndpoint(interaction, forumUser).then(response => {
+                expect(interaction.followUp).toHaveBeenCalledWith({
+                    content: 'Private message sent successfully to ' + forumUser.forumUsername + '.',
+                    ephemeral: true
+                })
+            })
+        })
+
+        it('returns correct boolean value on resolve on success', () => {
+            return registerforum.callRegisterEndpoint(interaction, forumUser).then(response => {
+                expect(response).toBe(true)
+            })
+        })
     })
 
-    it('function executes without error after failure', () => {
-        axios.post.mockRejectedValueOnce()
+    describe('on failed post request', () => {
+        beforeEach(() => {
+            axios.post.mockRejectedValueOnce()
+        })
 
-        expect(async () => {
-            await registerforum.callRegisterEndpoint(interaction, forumUser)
-        }).not.toThrow()
+        it('executes without error after failure', () => {
+            expect(registerforum.callRegisterEndpoint(interaction, forumUser)).resolves.not.toThrow()
+        })
+
+        it('posts correct followUp message on failure', () => {
+            return registerforum.callRegisterEndpoint(interaction, forumUser).then(response => {
+                expect(interaction.followUp).toHaveBeenCalledWith({
+                    content: 'Error when sending private message.',
+                    ephemeral: true
+                })
+            })
+        })
+
+        it('returns correct boolean value on resolve on failure', () => {
+            return registerforum.callRegisterEndpoint(interaction, forumUser).then(response => {
+                expect(response).toBe(false)
+            })
+        })
     })
 })
