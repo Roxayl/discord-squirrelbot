@@ -40,6 +40,7 @@ module.exports = class Bootstrap {
     async init () {
         Bootstrap.#fetchEnvironment()
         await this.startDb()
+        return this
     }
 
     /**
@@ -50,13 +51,15 @@ module.exports = class Bootstrap {
         console.log('[env] Loading environment variables from ' + path + '.')
 
         require('dotenv').config({ path: path })
+
+        console.log('[env] Environment: ' + process.env.NODE_ENV)
     }
 
     /**
      * Initialize database connection and set the {@link #sequelize} object and {@link #dataTypes} class.
      */
     async startDb () {
-        console.log('[database] Initializing database connection.')
+        console.log('[database] Initializing database connection (' + dbConfig.db + ').')
         this.#sequelize = new Sequelize(
             dbConfig.db, dbConfig.user, dbConfig.password, dbConfig.settings)
         this.#dataTypes = DataTypes

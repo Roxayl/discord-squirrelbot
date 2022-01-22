@@ -13,12 +13,20 @@ module.exports = class Webapp {
 
     /**
      * Port number where the webapp listens for requests.
-     * @type {number|string}
+     * @type {number}
      */
     #port
 
+    /**
+     * @type {http.Server}
+     */
+    #server
+
     constructor () {
-        this.#port = webappConfig.port
+        this.#port = Number.parseInt(webappConfig.port)
+        if (process.env.NODE_ENV === 'test') {
+            this.#port += 1
+        }
     }
 
     /**
@@ -31,7 +39,7 @@ module.exports = class Webapp {
 
         this.router()
 
-        this.#webapp.listen(this.#port, () => {
+        this.#server = this.#webapp.listen(this.#port, () => {
             console.log('[webapp] Webapp services listening on port ' + this.#port + '.')
         })
     }
@@ -43,5 +51,9 @@ module.exports = class Webapp {
         console.log('[webapp] Registering routes...')
 
         this.#webapp.get('/discord-forum-validate', (req, res) => new ForumValidationController(req, res))
+    }
+
+    getServer () {
+        return this.#server
     }
 }

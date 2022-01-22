@@ -11,48 +11,6 @@ const servicesConfig = require('./../config/services')
 const Controller = require('../controllers/controller')
 
 /**
- * Call private message sender endpoint.
- * @param {import('discord.js').Interaction} interaction
- * @param {ForumUser} forumUser
- * @returns {Promise<void>}
- */
-const callRegisterEndpoint = async (interaction, forumUser) => {
-    /* eslint-disable-next-line eqeqeq */
-    const useTls = servicesConfig.register.settings.tls != 0
-    let url = useTls ? 'https://' : 'http://'
-    url += servicesConfig.register.requestOptions.hostname + '/' + servicesConfig.register.requestOptions.path
-
-    const validationUrl = Controller.url('discord-forum-validate?validationKey=' + forumUser.validationKey)
-    const requestBody = {
-        authKey: servicesConfig.register.auth.key,
-        username: forumUser.forumUsername,
-        discordId: forumUser.discordId,
-        validationUrl: validationUrl
-    }
-
-    axios.post(url, requestBody, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-        .then((response) => {
-            console.log(`statusCode: ${response.statusCode}`)
-            console.log(response)
-            interaction.followUp({
-                content: 'Private message sent successfully to ' + forumUser.forumUsername + '.',
-                ephemeral: true
-            })
-        })
-        .catch((error) => {
-            console.error(error)
-            interaction.followUp({
-                content: 'Error when sending private message.',
-                ephemeral: true
-            })
-        })
-}
-
-/**
  * Checks whether a specific forum user already received a message recently.
  * @param {string} username Forum username.
  * @return {boolean}
@@ -69,6 +27,48 @@ const checkLastSentMessage = async (username) => {
 }
 
 module.exports = {
+
+    /**
+     * Call private message sender endpoint.
+     * @param {import('discord.js').Interaction} interaction
+     * @param {ForumUser} forumUser
+     * @returns {Promise<void>}
+     */
+    callRegisterEndpoint: async (interaction, forumUser) => {
+        /* eslint-disable-next-line eqeqeq */
+        const useTls = servicesConfig.register.settings.tls != 0
+        let url = useTls ? 'https://' : 'http://'
+        url += servicesConfig.register.requestOptions.hostname + '/' + servicesConfig.register.requestOptions.path
+
+        const validationUrl = Controller.url('discord-forum-validate?validationKey=' + forumUser.validationKey)
+        const requestBody = {
+            authKey: servicesConfig.register.auth.key,
+            username: forumUser.forumUsername,
+            discordId: forumUser.discordId,
+            validationUrl: validationUrl
+        }
+
+        axios.post(url, requestBody, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((response) => {
+                console.log(`statusCode: ${response.statusCode}`)
+                console.log(response)
+                interaction.followUp({
+                    content: 'Private message sent successfully to ' + forumUser.forumUsername + '.',
+                    ephemeral: true
+                })
+            })
+            .catch((error) => {
+                console.error(error)
+                interaction.followUp({
+                    content: 'Error when sending private message.',
+                    ephemeral: true
+                })
+            })
+    },
 
     data: new SlashCommandBuilder()
         .setName('registerforum')
@@ -120,7 +120,7 @@ module.exports = {
             ephemeral: true
         })
 
-        callRegisterEndpoint(interaction, forumUser)
+        module.exports.callRegisterEndpoint(interaction, forumUser)
     }
 
 }

@@ -4,7 +4,7 @@
   "description": "Discord bot for the Generation City community.",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --verbose false",
     "start": "npm install && npm index.js"
   },
   "keywords": [
