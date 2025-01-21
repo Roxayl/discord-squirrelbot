@@ -73,13 +73,13 @@ instance de l'application !
 2. Dans le répertoire de l'application, exécuter la commande suivante pour créer
    les conteneurs de l'application :
    ```bash
-   > docker-compose up -d
+   > docker compose up -d
    ```
 
 3. Il faut ensuite installer les dépendances de l'application, à partir du conteneur
    de l'application. Pour cela, exécuter les commandes suivantes :
    ```bash
-   > docker exec -ti squirrelbot_bot /bin/bash
+   > docker compose exec bot /bin/bash
    > npm install
    ```
 
@@ -100,7 +100,7 @@ instance de l'application !
 
 > NB : l'ensemble des commandes ci-dessous doivent être exécutées à partir du conteneur 
 > de l'application. Pour y accéder, vous pouvez taper en ligne de commande sur la machine 
-> hôte : ``docker exec -ti squirrelbot_bot /bin/bash``.
+> hôte : ``docker compose exec bot /bin/bash``.
 
 L'application utilise le gestionnaire de dépendances de Node 
 ([NPM](https://www.npmjs.com/)) afin de gérer ses librairies externes. Vous pouvez 
