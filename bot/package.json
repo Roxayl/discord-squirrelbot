@@ -1,6 +1,6 @@
 {
   "name": "squirrelbot",
-  "version": "0.1",
+  "version": "0.1.0",
   "description": "Discord bot for the Generation City community.",
   "main": "index.js",
   "scripts": {
